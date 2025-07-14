@@ -19,9 +19,9 @@ func (User) Fields() []ent.Field {
 			Default(uuid.New).
 			Immutable().
 			Unique(),
-		field.String("phone").NotEmpty().Unique(),
-		field.String("email").NotEmpty().Unique(),
-		field.String("password_hash").NotEmpty(),
+		field.String("phone").NotEmpty().Unique().Nillable(),
+		field.String("email").NotEmpty().Unique().Nillable(),
+		field.String("password_hash").NotEmpty().Nillable().Sensitive(),
 		field.Time("created_at").Default(time.Now),
 		field.Time("updated_at").Default(time.Now).UpdateDefault(time.Now),
 	}

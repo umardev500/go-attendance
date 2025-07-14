@@ -9,6 +9,8 @@ import (
 	"github.com/google/wire"
 	"github.com/umardev500/go-attendance/internal/boostrap"
 	"github.com/umardev500/go-attendance/internal/config"
+	"github.com/umardev500/go-attendance/internal/database"
+	"github.com/umardev500/go-attendance/internal/modules/user"
 )
 
 func ProvideValidator() *validator.Validate {
@@ -17,6 +19,10 @@ func ProvideValidator() *validator.Validate {
 
 var AppSet = wire.NewSet(
 	boostrap.ProvideFiberApp,
+	user.UserSet,
+	ProvideValidator,
+	database.NewTransactionManager,
+	database.NewEntClient,
 )
 
 func InitializeFiberApp(config *config.Config) *fiber.App {
