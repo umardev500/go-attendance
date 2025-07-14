@@ -23,17 +23,21 @@ func (Device) Fields() []ent.Field {
 
 		field.String("name").
 			MaxLen(50).
-			NotEmpty(),
+			NotEmpty().
+			Nillable().Unique(),
 
 		field.String("location").
 			MaxLen(100).
-			NotEmpty(),
+			NotEmpty().
+			Nillable(),
 
 		field.Time("installed_at").
-			Default(time.Now),
+			Default(time.Now).
+			Nillable(),
 
 		field.Bool("is_active").
-			Default(true),
+			Default(true).
+			Nillable(),
 	}
 }
 
