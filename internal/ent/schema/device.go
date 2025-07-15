@@ -6,6 +6,7 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
+	"github.com/google/uuid"
 )
 
 // Device holds the schema definition for the Device entity.
@@ -16,10 +17,10 @@ type Device struct {
 // Fields of the Device.
 func (Device) Fields() []ent.Field {
 	return []ent.Field{
-		field.Int("id").
+		field.UUID("id", uuid.UUID{}).
+			Default(uuid.New).
 			Unique().
-			Immutable().
-			Positive(),
+			Immutable(),
 
 		field.String("name").
 			MaxLen(50).

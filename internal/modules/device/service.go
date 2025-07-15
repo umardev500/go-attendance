@@ -3,15 +3,16 @@ package device
 import (
 	"context"
 
+	"github.com/google/uuid"
 	"github.com/umardev500/go-attendance/internal/ent"
 )
 
 type Service interface {
 	Create(ctx context.Context, req *CreateDeviceRequest) (*ent.Device, error)
-	GetByID(ctx context.Context, id int) (*ent.Device, error)
+	GetByID(ctx context.Context, id uuid.UUID) (*ent.Device, error)
 	List(ctx context.Context, params *ListDeviceParams) ([]*ent.Device, int, error)
 	Update(ctx context.Context, req *UpdateDeviceRequest) (*ent.Device, error)
-	Delete(ctx context.Context, id int) error
+	Delete(ctx context.Context, id uuid.UUID) error
 }
 
 type service struct {
@@ -35,7 +36,7 @@ func (s *service) Create(ctx context.Context, req *CreateDeviceRequest) (*ent.De
 	return s.repo.Create(ctx, device)
 }
 
-func (s *service) GetByID(ctx context.Context, id int) (*ent.Device, error) {
+func (s *service) GetByID(ctx context.Context, id uuid.UUID) (*ent.Device, error) {
 	return s.repo.GetByID(ctx, id)
 }
 
@@ -55,6 +56,6 @@ func (s *service) Update(ctx context.Context, req *UpdateDeviceRequest) (*ent.De
 	return s.repo.Update(ctx, device)
 }
 
-func (s *service) Delete(ctx context.Context, id int) error {
+func (s *service) Delete(ctx context.Context, id uuid.UUID) error {
 	return s.repo.Delete(ctx, id)
 }

@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"entgo.io/ent/dialect/sql"
+	"github.com/google/uuid"
 	"github.com/umardev500/go-attendance/internal/database"
 	"github.com/umardev500/go-attendance/internal/ent"
 	"github.com/umardev500/go-attendance/internal/ent/device"
@@ -11,10 +12,10 @@ import (
 
 type Repository interface {
 	Create(ctx context.Context, device *ent.Device) (*ent.Device, error)
-	GetByID(ctx context.Context, id int) (*ent.Device, error)
+	GetByID(ctx context.Context, id uuid.UUID) (*ent.Device, error)
 	List(ctx context.Context, params *ListDeviceParams) ([]*ent.Device, int, error)
 	Update(ctx context.Context, device *ent.Device) (*ent.Device, error)
-	Delete(ctx context.Context, id int) error
+	Delete(ctx context.Context, id uuid.UUID) error
 }
 
 type repository struct {
@@ -37,7 +38,7 @@ func (r *repository) Create(ctx context.Context, d *ent.Device) (*ent.Device, er
 		Save(ctx)
 }
 
-func (r *repository) GetByID(ctx context.Context, id int) (*ent.Device, error) {
+func (r *repository) GetByID(ctx context.Context, id uuid.UUID) (*ent.Device, error) {
 	db := r.tm.FromContext(ctx)
 	return db.Device.Get(ctx, id)
 }
@@ -98,7 +99,7 @@ func (r *repository) Update(ctx context.Context, d *ent.Device) (*ent.Device, er
 		Save(ctx)
 }
 
-func (r *repository) Delete(ctx context.Context, id int) error {
+func (r *repository) Delete(ctx context.Context, id uuid.UUID) error {
 	db := r.tm.FromContext(ctx)
 	return db.Device.DeleteOneID(id).Exec(ctx)
 }

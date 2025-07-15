@@ -1,10 +1,9 @@
 package device
 
 import (
-	"strconv"
-
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 	"github.com/umardev500/go-attendance/pkg/api"
 )
 
@@ -48,7 +47,7 @@ func (h *Handler) Create(c *fiber.Ctx) error {
 
 func (h *Handler) GetByID(c *fiber.Ctx) error {
 	idStr := c.Params("id")
-	id, err := strconv.Atoi(idStr)
+	id, err := uuid.Parse(idStr)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(api.Error("Invalid device ID", err))
 	}
@@ -79,7 +78,7 @@ func (h *Handler) List(c *fiber.Ctx) error {
 
 func (h *Handler) Update(c *fiber.Ctx) error {
 	idStr := c.Params("id")
-	id, err := strconv.Atoi(idStr)
+	id, err := uuid.Parse(idStr)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(api.Error("Invalid device ID", err))
 	}
@@ -105,7 +104,7 @@ func (h *Handler) Update(c *fiber.Ctx) error {
 
 func (h *Handler) Delete(c *fiber.Ctx) error {
 	idStr := c.Params("id")
-	id, err := strconv.Atoi(idStr)
+	id, err := uuid.Parse(idStr)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(api.Error("Invalid device ID", err))
 	}

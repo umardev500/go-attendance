@@ -1,6 +1,10 @@
 package device
 
-import "time"
+import (
+	"time"
+
+	"github.com/google/uuid"
+)
 
 type ListDeviceParams struct {
 	Limit   int    `query:"limit"`
@@ -18,7 +22,7 @@ type CreateDeviceRequest struct {
 }
 
 type UpdateDeviceRequest struct {
-	ID          int        `json:"-"`
+	ID          uuid.UUID  `json:"-"`
 	Name        *string    `json:"name" validate:"required"`
 	Location    *string    `json:"location" validate:"required"`
 	InstalledAt *time.Time `json:"installed_at"`

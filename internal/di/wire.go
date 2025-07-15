@@ -10,6 +10,7 @@ import (
 	"github.com/umardev500/go-attendance/internal/boostrap"
 	"github.com/umardev500/go-attendance/internal/config"
 	"github.com/umardev500/go-attendance/internal/database"
+	"github.com/umardev500/go-attendance/internal/modules/attendance"
 	"github.com/umardev500/go-attendance/internal/modules/card"
 	"github.com/umardev500/go-attendance/internal/modules/device"
 	"github.com/umardev500/go-attendance/internal/modules/user"
@@ -24,6 +25,7 @@ var AppSet = wire.NewSet(
 	user.Set,
 	device.Set,
 	card.Set,
+	attendance.Set,
 	ProvideValidator,
 	database.NewTransactionManager,
 	database.NewEntClient,

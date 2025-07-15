@@ -8,12 +8,15 @@ import (
 	"github.com/umardev500/go-attendance/internal/database"
 	"github.com/umardev500/go-attendance/internal/ent"
 	"github.com/umardev500/go-attendance/internal/ent/card"
+	"github.com/umardev500/go-attendance/internal/ent/user"
 )
 
 type Repository interface {
 	AssignCardToUser(ctx context.Context, cardID uuid.UUID, userID uuid.UUID) error
 	Create(ctx context.Context, card *ent.Card) (*ent.Card, error)
 	GetByID(ctx context.Context, id uuid.UUID) (*ent.Card, error)
+	GetByUID(ctx context.Context, cardUID string) (*ent.Card, error)
+	GetUserByCard(ctx context.Context, cardUID string) (*ent.User, error)
 	List(ctx context.Context, params *ListCardParams) ([]*ent.Card, int, error)
 	Update(ctx context.Context, card *ent.Card) (*ent.Card, error)
 	UnassignCard(ctx context.Context, cardID uuid.UUID) error
@@ -45,6 +48,19 @@ func (r *repository) Create(ctx context.Context, cardData *ent.Card) (*ent.Card,
 func (r *repository) GetByID(ctx context.Context, id uuid.UUID) (*ent.Card, error) {
 	db := r.tm.FromContext(ctx)
 	return db.Card.Get(ctx, id)
+}
+
+func (r *repository) GetByUID(ctx context.Context, cardUID string) (*ent.Card, error) {
+	db := r.tm.FromContext(ctx)
+	return db.Card.Query().Where(card.CardUIDEQ(cardUID)).Only(ctx)
+}
+
+func (r *repository) GetUserByCard(ctx context.Context, cardUID string) (*ent.User, error) {
+	db := r.tm.FromContext(ctx)
+	return db.User.
+		Query().
+		Where(user.HasCardWith(card.CardUIDEQ(cardUID))).
+		Only(ctx)
 }
 
 func (r *repository) List(ctx context.Context, params *ListCardParams) ([]*ent.Card, int, error) {

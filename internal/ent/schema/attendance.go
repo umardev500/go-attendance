@@ -20,7 +20,7 @@ func (Attendance) Fields() []ent.Field {
 			Immutable().
 			Unique(),
 		field.Time("check_in").Default(time.Now),
-		field.Time("check_out").Nillable(),
+		field.Time("check_out").Optional().Nillable(),
 		field.Time("date").Default(time.Now),
 	}
 }
