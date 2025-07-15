@@ -90,7 +90,7 @@ func (r *repository) List(ctx context.Context, params *ListUsersParams) ([]*ent.
 		q = q.Offset(params.Offset)
 	}
 
-	users, err := q.All(ctx)
+	users, err := q.WithCard().All(ctx)
 	if err != nil {
 		return nil, 0, err
 	}
