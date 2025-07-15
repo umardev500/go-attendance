@@ -19,15 +19,15 @@ func (Card) Fields() []ent.Field {
 			Default(uuid.New).
 			Immutable().
 			Unique(),
-		field.String("card_uid").NotEmpty().Unique(),
+		field.String("card_uid").NotEmpty().Unique().Nillable(),
 		field.Time("issued_at").Immutable().Default(time.Now),
-		field.Bool("is_active").Default(true),
+		field.Bool("is_active").Default(true).Nillable(),
 	}
 }
 
 func (Card) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.From("users", User.Type).Ref("card").Unique(),
+		edge.From("user", User.Type).Ref("card").Unique(),
 		edge.To("scan_logs", ScanLog.Type),
 	}
 }
